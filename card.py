@@ -17,3 +17,9 @@ class Card:
             self.description = "Base building for testing"
             self.type = CardType.ENCHANTMENT
             self.land_type = LandType.PLAIN | LandType.CORNFIELD
+        else:
+            self.name = "Wall"
+            self.description = "Protective wall"
+            self.type = CardType.CREATURE
+            self.base_power = 0
+            self.base_defense = 20

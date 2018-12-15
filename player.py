@@ -1,6 +1,7 @@
 class Player:
 
-    def __init__(self, health, hand, deck, tiles):
+    def __init__(self, name, health, hand, deck, tiles):
+        self.name = name
         self.health = health
         self.hand = hand
         self.deck = deck
