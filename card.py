@@ -1,6 +1,12 @@
-from card_type import CardType
+from enum import Enum
+
 from land_type import LandType
 
+
+class CardType(Enum):
+    CREATURE = 1
+    ENCHANTMENT = 2
+    SPELL = 3
 
 class Card:
     def __init__(self, id):

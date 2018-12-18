@@ -1,5 +1,4 @@
-from card_type import CardType
-
+from card import CardType
 
 class Tile():
     def __init__(self, land):

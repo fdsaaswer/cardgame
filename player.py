@@ -1,3 +1,7 @@
+from card import CardType
+from exception import GameLogicError
+
+
 class Player:
 
     def __init__(self, name, health, hand, deck, tiles):
@@ -24,8 +28,32 @@ class Player:
     def draw_card(self):
         pass
 
-    def play_card(self, enemy, card_id, pos_id, target_id):
-        card = self.hand(card_id)
+    def play_card(self, enemy, pos_id, target_id):
+        try:
+            card = self.hand.pop(pos_id)
+        except KeyError as e:
+            raise GameLogicError("No such card in hand")
+
+        try:
+            if card.type == CardType.CREATURE:
+                if target_id is None:
+                    raise GameLogicError("Not implemented yet - should iterate all fields")
+                if self.tiles[target_id].unit:
+                    raise GameLogicError("Position {} already taken".format(target_id))
+                self.tiles[target_id].unit = card
+
+            if card.type == CardType.ENCHANTMENT:
+                if target_id is None:
+                    raise GameLogicError("Not implemented yet - should iterate all fields")
+                if self.tiles[target_id].enchantment:
+                    raise GameLogicError("Position {} already taken".format(target_id))
+                self.tiles[target_id].enchantment = card
+
+            if card.type == CardType.SPELL:
+                raise GameLogicError("Not implemented")
+        except GameLogicError as e:
+            self.hand.append(card)
+            raise e
 
     def use_card(self):
         pass
