@@ -12,6 +12,28 @@ class Player:
         self.tiles = tiles
         self.actions = 2
 
+    def to_html(self, is_active):
+        text = '<p>{} ({})</p>'.format(
+            self.name,
+            self.health,
+        )
+        for idx, tile in enumerate(self.tiles):
+            text += tile.to_html(is_active, idx)
+        for idx, card in enumerate(self.hand):
+            text += """<form action="" method="post">
+                       <table><tr>{}</tr><tr><td>
+                       <input type="submit" value="{}" name="Play card" {}/>
+                       </td><td>
+                       <input type="text" name="target_id"></td></tr></table>
+                       </form>""".format(card.to_html(is_active, idx), idx, None if is_active else "disabled")
+        text += """<form action="" method="post">
+                   <input type="submit" value="Draw card" name="Draw card" {}/>
+                   </form>""".format(None if is_active else "disabled")
+        text += """<form action="" method="post">
+                   <input type="submit" value="End turn" name="End turn" {}/>
+                   </form>""".format(None if is_active else "disabled")
+        return text
+
     def end_turn(self, enemy):
         for idx, tile in enumerate(self.tiles):
             if not tile.unit:

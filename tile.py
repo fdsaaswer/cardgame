@@ -8,6 +8,32 @@ class Tile():
         self.current_power = 0
         self.current_defense = 0
 
+    def to_html(self, is_active, idx):
+        text = '<form action="" method="post"><table border = "1">'
+        text += '<td>Land type: {}</td>'.format(self.land)
+        if self.unit:
+            text += '<td>{}</td>'.format(self.unit.to_html(is_active, idx))
+            try:
+                if self.unit.use:
+                    text += '<input type="submit" value="{}" name="Use card" {}/>'. \
+                        format(idx, None if is_active else "disabled")
+            except AttributeError as e:
+                pass
+        else:
+            text += '<td>No creature</td>'
+        if self.enchantment:
+            text += '<td>{}</td>'.format(self.enchantment.to_html(is_active, idx))
+            try:
+                if self.enchantment.use:
+                    text += '<input type="submit" value="{}" name="Use card" {}/>'. \
+                        format(idx, None if is_active else "disabled")
+            except AttributeError as e:
+                pass
+        else:
+            text += '<td>No building</td>'
+        text += '</table>'
+        return text
+
     def play_card(self, target, player, enemy, card):
         if card.land_type != self.land:
             return
