@@ -8,7 +8,7 @@ from exception import GameLogicError
 from game_server import GameServer
 
 HOST_NAME = '127.0.0.1'
-PORT_NUMBER = 8906
+PORT_NUMBER = 8912
 GAME_SERVER = GameServer()
 
 

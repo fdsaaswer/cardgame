@@ -36,6 +36,6 @@ class Card:
             self.base_defense = 20
             self.action_cost = 1
 
-    def to_html(self, is_active, idx):
+    def to_html(self):
         # return str(self.__dict__)
         return self.name

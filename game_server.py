@@ -6,8 +6,8 @@ from exception import GameLogicError
 from player import Player
 from tile import Tile
 
-SAMPLE_DECK_1 = [Card(x) for x in [0, 1, 2, 3, 4, 5, 6]]
-SAMPLE_DECK_2 = [Card(x) for x in [0, 1, 2, 3, 4, 5, 6]]
+SAMPLE_DECK_1 = [Card(x) for x in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]
+SAMPLE_DECK_2 = [Card(x) for x in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]
 
 
 class GameServer:
@@ -31,7 +31,7 @@ class GameServer:
         return text
 
     def draw_card(self):
-        raise GameLogicError("Not implemented")
+        self.players[self.active].draw_card()
 
     def use_card(self):
         raise GameLogicError("Not implemented")
