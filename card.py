@@ -18,20 +18,20 @@ class Card:
             self.name = "Soldier"
             self.description = "Base creature for testing"
             self.type = CardType.CREATURE
+            self.land_type = LandType.PLAIN
             self.base_power = 2
             self.base_defense = 10
             self.action_cost = 1
-            self.land_type = LandType.PLAIN
         elif id == 1:
             self.name = "Tower"
             self.description = "Base building for testing"
             self.type = CardType.ENCHANTMENT
-            self.land_type = LandType.PLAIN | LandType.CORNFIELD
             self.action_cost = 1
         else:
             self.name = "Wall"
             self.description = "Protective wall"
             self.type = CardType.CREATURE
+            self.land_type = LandType.PLAIN | LandType.CORNFIELD
             self.base_power = 0
             self.base_defense = 20
             self.action_cost = 1

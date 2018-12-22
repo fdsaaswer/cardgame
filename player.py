@@ -39,24 +39,28 @@ class Player:
             card = self.hand.pop(pos_id)
         except KeyError as e:
             raise GameLogicError("No such card in hand")
-
         try:
+            if card.action_cost > self.actions:
+                raise GameLogicError("Not enough action points")
+            if card.type == CardType.SPELL:
+                raise GameLogicError("Not implemented")
             if card.type == CardType.CREATURE:
                 if target_id is None:
                     raise GameLogicError("Not implemented yet - should iterate all fields")
+                if self.tiles[target_id].land & card.land_type == 0:
+                    raise GameLogicError("Land type mismatch")
                 if self.tiles[target_id].unit:
                     raise GameLogicError("Position {} already taken".format(target_id))
                 self.tiles[target_id].unit = card
-
+                self.tiles[target_id].current_power = card.base_power
+                self.tiles[target_id].current_defense = card.base_defense
             if card.type == CardType.ENCHANTMENT:
                 if target_id is None:
                     raise GameLogicError("Not implemented yet - should iterate all fields")
                 if self.tiles[target_id].enchantment:
                     raise GameLogicError("Position {} already taken".format(target_id))
                 self.tiles[target_id].enchantment = card
-
-            if card.type == CardType.SPELL:
-                raise GameLogicError("Not implemented")
+            self.actions -= card.action_cost
         except GameLogicError as e:
             self.hand.append(card)
             raise e
@@ -74,16 +78,16 @@ class Player:
         for idx, tile in enumerate(self.tiles):
             # tile.end_turn(enemy.tiles[idx], self, enemy) # needs lane id
             if not tile.unit:
-                return
+                continue
             if tile.actions == 0:
-                return
+                continue
             # self.on_attack(target, self, enemy)
             if enemy.tiles[idx].unit:
                 enemy.tiles[idx].current_defense -= tile.current_power
                 tile.current_defense -= enemy.tiles[idx].current_power
                 if enemy.tiles[idx].current_defense <= 0:
                     # target.on_die(enemy, self)
-                    enemy.tiles[idx] = None
+                    enemy.tiles[idx].unit = None
             else:
                 enemy.health -= tile.current_power
             tile.actions = 1

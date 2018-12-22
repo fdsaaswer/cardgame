@@ -8,13 +8,8 @@ from exception import GameLogicError
 from game_server import GameServer
 
 HOST_NAME = '127.0.0.1'
-PORT_NUMBER = 8912
+PORT_NUMBER = 8888
 GAME_SERVER = GameServer()
-
-
-def serialize(game_server):
-    return game_server.to_html()
-
 
 class Handler(BaseHTTPRequestHandler):
 
@@ -28,7 +23,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(bytes(serialize(GAME_SERVER), 'UTF-8'))
+        self.wfile.write(bytes(GAME_SERVER.to_html(), 'UTF-8'))
 
     def do_POST(self):
         self.send_response(200)
@@ -59,7 +54,7 @@ class Handler(BaseHTTPRequestHandler):
                 traceback.print_exc(e)
                 self.wfile.write(bytes('Unexpected exception:' + str(e), 'UTF-8'))
 
-        self.wfile.write(bytes(serialize(GAME_SERVER), 'UTF-8'))
+        self.wfile.write(bytes(GAME_SERVER.to_html(), 'UTF-8'))
 
 if __name__ == '__main__':
     server_class = HTTPServer
