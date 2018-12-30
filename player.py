@@ -37,7 +37,7 @@ class Player:
     def play_card(self, enemy, pos_id, target_id):
         try:
             card = self.hand.pop(pos_id)
-        except KeyError as e:
+        except IndexError as e:
             raise GameLogicError("No such card in hand")
         try:
             if card.action_cost > self.actions:
